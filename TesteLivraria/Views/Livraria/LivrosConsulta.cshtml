@@ -1,0 +1,34 @@
+﻿@model List<TesteLivraria.Models.Livro>
+
+
+@{
+    ViewBag.Title = "LivrosConsulta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>Nome</th>
+            <th>Data de Publicação</th>
+            <th>Preço</th>
+            <th>Autor</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var livro in Model)
+        {
+        <tr>
+            <td>@livro.ISBN</td>
+            <td>@livro.Nome</td>
+            <td>@livro.DataPublicacao</td>
+            <td>@livro.Preco</td>
+            <td>@livro.Autor.Nome</td>
+            <td>@Html.ActionLink("Editar","LivrosAtualizacao",new { id = livro.Id },"Livraria")</td>
+        </tr>
+        }
+    </tbody>
+</table>

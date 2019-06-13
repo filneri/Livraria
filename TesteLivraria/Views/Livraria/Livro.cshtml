@@ -1,0 +1,43 @@
+﻿@model TesteLivraria.ViewsModels.LivroAutorViewModel
+
+@{
+    ViewBag.Title = "LivrosCadastro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@ViewBag.acao</h3>
+
+@using (Html.BeginForm("Save", "Livraria"))
+{
+    <div class="form-group-sm">
+        <div class="form-group">
+            @Html.LabelFor(l => l.Livro.ISBN)
+            @Html.TextBoxFor(l => l.Livro.ISBN, new { @class = "form-control" })
+
+
+            @Html.LabelFor(l => l.Livro.Nome)
+            @Html.TextBoxFor(l => l.Livro.Nome, new { @class = "form-control" })
+
+
+            @Html.LabelFor(l => l.Livro.Preco)
+            @Html.TextBoxFor(l => l.Livro.Preco, new { @class = "form-control" })
+
+
+            @Html.LabelFor(l => l.Livro.DataPublicacao)
+            @Html.TextBoxFor(l => l.Livro.DataPublicacao, "{0:d/M/yyyy}", new { @class = "form-control" })
+
+
+
+            @Html.LabelFor(l => l.Livro.Autor)
+            @Html.DropDownListFor(l => l.Livro.Autor.Id, new SelectList(Model.Autores, "Id", "Nome"), "Selecione o Autor", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Salvar</button>
+    </div>
+
+    @Html.HiddenFor(l => l.Livro.Id)
+    @Html.HiddenFor(l => l.Livro.Id)
+
+}

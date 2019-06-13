@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteLivraria", "TesteLivraria\TesteLivraria.csproj", "{C9FADB45-3471-4BE1-A562-9F542A241FB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteLivraria.Tests", "TesteLivraria.Tests\TesteLivraria.Tests.csproj", "{2C08559F-24FF-438F-AEA7-A49651A42965}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9FADB45-3471-4BE1-A562-9F542A241FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9FADB45-3471-4BE1-A562-9F542A241FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9FADB45-3471-4BE1-A562-9F542A241FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9FADB45-3471-4BE1-A562-9F542A241FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C08559F-24FF-438F-AEA7-A49651A42965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C08559F-24FF-438F-AEA7-A49651A42965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C08559F-24FF-438F-AEA7-A49651A42965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C08559F-24FF-438F-AEA7-A49651A42965}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7A13453-1B58-482F-A7B7-AE6C0186079F}
+	EndGlobalSection
+EndGlobal
