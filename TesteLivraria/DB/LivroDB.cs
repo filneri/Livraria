@@ -118,5 +118,11 @@ namespace TesteLivraria.DB
 
             return livros;
         }
+
+        public int Excluir()
+        {
+            String sql = "delete from Livro where idlivro = "+this.Livro.Id;
+            return Executar(sql);
+        }
     }
 }

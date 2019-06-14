@@ -44,9 +44,7 @@ namespace TesteLivraria.Controllers
 
         public ActionResult LivrosConsulta()
         {
-
-
-            return View(new Livro().Listar());
+           return View(new Livro().Listar());
         }
 
         public ActionResult LivrosAtualizacao(int id)
@@ -70,6 +68,20 @@ namespace TesteLivraria.Controllers
                 return View("Livro", livroAutores);
             }
                
+        }
+
+
+        public ActionResult LivrosExcluir(int id)
+        {
+
+            Livro livroTemp = new Livro();
+            livroTemp.Id = id;
+
+
+            int resultado = livroTemp.Excluir();
+
+            return RedirectToAction("LivrosConsulta", "Livraria");
+
         }
 
         [HttpPost]

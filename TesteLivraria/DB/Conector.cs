@@ -20,8 +20,6 @@ namespace TesteLivraria.DB
             {
                 conexao.Open(); //Abre conexao
                 MySqlCommand comando = new MySqlCommand(strSQL, conexao);
-                comando.ExecuteNonQuery();
-                conexao.Close(); //Fecha conexao
                 int rowsaffect = comando.ExecuteNonQuery();
                 conexao.Close(); //Fecha conexao
                 if (comando.LastInsertedId == 0)

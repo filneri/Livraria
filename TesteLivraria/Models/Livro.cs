@@ -62,5 +62,10 @@ namespace TesteLivraria.Models
         {
                 return new LivroDB(this).Atualizar();
         }
+
+        public int Excluir()
+        {
+            return new LivroDB(this).Excluir();
+        }
     }
 }

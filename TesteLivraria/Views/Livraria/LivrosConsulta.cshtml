@@ -6,10 +6,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<script type="text/javascript">
+        function DeleteLivro(idLivro) {
+            var redirectPage = "http://" + window.location.host + "/Livraria/LivrosExcluir/" + idLivro;
+            if (confirm("Realmente deseja excluir o livro?")) {
+                window.location.replace(redirectPage);
+            }
+            
+        }
+</script>
+<h2>Listagem de livros</h2>
 <table class="table table-bordered table-hover">
     <thead>
-        <tr>
+        <tr style="text-align: center">
             <th>ISBN</th>
             <th>Nome</th>
             <th>Data de Publicação</th>
@@ -21,14 +30,17 @@
     <tbody>
         @foreach (var livro in Model)
         {
-        <tr>
-            <td>@livro.ISBN</td>
-            <td>@livro.Nome</td>
-            <td>@livro.DataPublicacao</td>
-            <td>@livro.Preco</td>
-            <td>@livro.Autor.Nome</td>
-            <td>@Html.ActionLink("Editar","LivrosAtualizacao",new { id = livro.Id },"Livraria")</td>
-        </tr>
+            <tr>
+                <td>@livro.ISBN</td>
+                <td>@livro.Nome</td>
+                <td>@livro.DataPublicacao</td>
+                <td>@livro.Preco</td>
+                <td>@livro.Autor.Nome</td>
+                <td>
+                    @Html.ActionLink("Editar", "LivrosAtualizacao", new { id = livro.Id }, new { @class = "btn btn-warning" })
+                    <button class="btn btn-danger" onclick="DeleteLivro(@livro.Id)">Excluir</button>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
