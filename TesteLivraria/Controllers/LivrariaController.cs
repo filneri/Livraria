@@ -85,8 +85,17 @@ namespace TesteLivraria.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(LivroAutorViewModel livroAutor)
         {
+
+            if (!ModelState.IsValid)
+            {
+                livroAutor.Autores = new Autor().Listar();
+                ViewBag.acao = "Cadastrar Livro";
+                return View("Livro", livroAutor);
+
+            }
             if (livroAutor.Livro.Id == 0)
             {
                 if (livroAutor.Livro.Cadastrar() > 0)

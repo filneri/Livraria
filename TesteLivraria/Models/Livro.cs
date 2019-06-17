@@ -15,13 +15,14 @@ namespace TesteLivraria.Models
         public Int32 Id { get; set; }
         [Required(ErrorMessage = "Favor inserir ISBN.")]
         [StringLength(13)]
+        [DisplayFormat(DataFormatString = "{}", ApplyFormatInEditMode = true)]
         public String ISBN { get; set;}
         [Required(ErrorMessage = "Favor inserir Nome.")]
         [StringLength(150)]
         public String Nome { get; set; }
         [Required(ErrorMessage = "Favor inserir Preco.")]
         [Display(Name = "Preço")]
-        public float Preco { get; set; }
+        public float? Preco { get; set; }
         [Required(ErrorMessage = "Favor inserir Data de Publicação.")]
         [Display(Name = "Data de Publicação")]
         public DateTime? DataPublicacao { get; set; }
