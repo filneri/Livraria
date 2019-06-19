@@ -1,0 +1,89 @@
+﻿@model List<TesteLivraria.Models.Livro>
+
+
+@{
+    ViewBag.Title = "LivrosConsulta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .modal-dialog {
+        left: 0;
+    }
+</style>
+
+@section scripts{
+<script type="text/javascript">
+
+    $(document).ready(function () { 
+
+        $("#tblLivros").DataTable({
+            ajax: {
+                url: "/api/Livro",
+                dataSrc: ""
+            },
+            columns: [
+                {
+                    data: "isbn"
+                },
+                {
+                    data: "nome"
+                },
+                {
+                    data: "dataPublicacao"
+                },
+                {
+                    data: "preco"
+                },
+                {
+                    data: "autor.nome"
+                },
+                {
+                    data: "id",
+                    render: function (data, type, livro) {
+                        return "<a href='/Livraria/LivrosAtualizacao/" + livro.id + "'  class='btn btn-warning'> Editar </a>" +
+                            " <button data-livro-id=' " + data + " ' class='btn btn-danger js-excluir'>Excluir</button>";
+                    }
+                }
+            ],
+        });
+        $("#tblLivros").on("click",".js-excluir",function () {
+            var button = $(this);
+            bootbox.confirm("Deseja excluir este livro ?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/api/Livro/" + button.attr("data-livro-id"),
+                        method: "DELETE",
+                        success: function () {
+                            DataTable.row(button.parents("tr")).remove().draw();
+                        }
+                        
+                    });
+                }
+            });
+        });
+    });
+</script>
+}
+
+<h2>Listagem de livros</h2>
+<br />
+@Html.ActionLink("Cadastro", "LivrosCadastro", null, new { @class = "btn btn-default" })
+<br />
+<br />
+<table id="tblLivros" class="table table-bordered table-hover">
+    <thead>
+        <tr style="text-align: center">
+            <th>ISBN</th>
+            <th>Nome</th>
+            <th>Data de Publicação</th>
+            <th>Preço</th>
+            <th>Autor</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>

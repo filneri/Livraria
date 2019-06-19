@@ -71,11 +71,11 @@ namespace TesteLivraria.DB
 
         }
 
-        public Livro BuscarPorId(int Id)
+        public Livro BuscarPorId(int id)
         {
             this.Livro = new Livro();
             this.Livro.Autor = new Autor();
-            string sql = "select l.idlivro,l.isbn,l.nome as livro,l.preco,l.datapublicacao,l.idautor,a.nome as autor from livro l inner join autor a on l.idautor = a.idautor where idlivro ='" + Id + "'";
+            string sql = "select l.idlivro,l.isbn,l.nome as livro,l.preco,l.datapublicacao,l.idautor,a.nome as autor from livro l inner join autor a on l.idautor = a.idautor where idlivro ='" + id + "'";
             DataSet dados = LeitorDeDados(sql);
             foreach (DataRow row in dados.Tables[0].Rows)
             {

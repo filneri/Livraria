@@ -22,5 +22,18 @@ namespace TesteLivraria.Models
             return new AutorDB().Listar();
         }
 
+        public Autor BuscarAutor(String comando)
+        {
+            switch (comando)
+            {
+                case ("Id"):
+                    return new AutorDB().BuscarPorId(this.Id);
+                case "Nome":
+                    return new AutorDB().BuscarPorNome(this.Nome);
+                default:
+                    return null;
+            }
+        }
+
     }
 }

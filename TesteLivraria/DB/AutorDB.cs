@@ -29,5 +29,38 @@ namespace TesteLivraria.DB
             return autores;
         }
 
+        public Autor BuscarPorId(int id)
+        {
+            this.Autor = new Autor();
+
+            string sql = "select a.idautor,a.nome as autor from autor a where idautor ='" + id + "'";
+            DataSet dados = LeitorDeDados(sql);
+            foreach (DataRow row in dados.Tables[0].Rows)
+            {
+
+                this.Autor.Id = Convert.ToInt32(row["idAutor"].ToString());
+                this.Autor.Nome = row["autor"].ToString();
+            }
+
+            return this.Autor;
+
+
+        }
+
+        public Autor BuscarPorNome(String nome)
+        {
+            this.Autor = new Autor();
+            string sql = "select a.idautor,a.nome as autor from autor a where a.nome ='" + nome + "'";
+            DataSet dados = LeitorDeDados(sql);
+            foreach (DataRow row in dados.Tables[0].Rows)
+            {
+
+                this.Autor.Id = Convert.ToInt32(row["idAutor"].ToString());
+                this.Autor.Nome = row["autor"].ToString();
+            }
+
+            return this.Autor;
+        }
+
     }
 }

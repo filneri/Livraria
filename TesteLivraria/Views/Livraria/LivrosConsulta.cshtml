@@ -7,15 +7,18 @@
 }
 
 <script type="text/javascript">
-        function DeleteLivro(idLivro) {
-            var redirectPage = "http://" + window.location.host + "/Livraria/LivrosExcluir/" + idLivro;
-            if (confirm("Realmente deseja excluir o livro?")) {
-                window.location.replace(redirectPage);
-            }
-            
+    function DeleteLivro(idLivro) {
+        var redirectPage = "http://" + window.location.host + "/Livraria/LivrosExcluir/" + idLivro;
+        if (confirm("Realmente deseja excluir o livro?")) {
+            window.location.replace(redirectPage);
         }
+
+    }
 </script>
 <h2>Listagem de livros</h2>
+<br/>
+@Html.ActionLink("Cadastro", "LivrosCadastro", null,new { @class="btn-default"})
+<br />
 <table class="table table-bordered table-hover">
     <thead>
         <tr style="text-align: center">

@@ -22,7 +22,7 @@ namespace TesteLivraria.Models
         public String Nome { get; set; }
         [Required(ErrorMessage = "Favor inserir Preco.")]
         [Display(Name = "Preço")]
-        public float? Preco { get; set; }
+        public float Preco { get; set; }
         [Required(ErrorMessage = "Favor inserir Data de Publicação.")]
         [Display(Name = "Data de Publicação")]
         public DateTime? DataPublicacao { get; set; }

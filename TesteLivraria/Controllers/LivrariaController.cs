@@ -47,6 +47,11 @@ namespace TesteLivraria.Controllers
            return View(new Livro().Listar());
         }
 
+        public ActionResult LivrosConsultaAPI()
+        {
+            return View(new Livro().Listar());
+        }
+
         public ActionResult LivrosAtualizacao(int id)
         {
 
