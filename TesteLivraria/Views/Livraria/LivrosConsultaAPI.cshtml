@@ -1,7 +1,4 @@
-﻿@model List<TesteLivraria.Models.Livro>
-
-
-@{
+﻿@{
     ViewBag.Title = "LivrosConsulta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -40,6 +37,12 @@
                     data: "autor.nome"
                 },
                 {
+                    data: "caminho",
+                      render: function (data, type, livro) {
+                          return '<img class="rounded img-thumbnail" src="/Uploads/' + data + '"/>';
+                    }
+                },
+                {
                     data: "id",
                     render: function (data, type, livro) {
                         return "<a href='/Livraria/LivrosAtualizacao/" + livro.id + "'  class='btn btn-warning'> Editar </a>" +
@@ -47,6 +50,29 @@
                     }
                 }
             ],
+            "oLanguage": {
+                "sEmptyTable": "Nenhum livro cadastrado.",
+                "sInfo": "de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum livro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": ">",
+                    "sPrevious": "<",
+                    "sFirst": "|<",
+                    "sLast": ">|"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
         });
         $("#tblLivros").on("click",".js-excluir",function () {
             var button = $(this);
@@ -80,6 +106,7 @@
             <th>Data de Publicação</th>
             <th>Preço</th>
             <th>Autor</th>
+            <th>Capa</th>
             <th></th>
         </tr>
     </thead>

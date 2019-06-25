@@ -22,5 +22,6 @@ namespace TesteLivraria.Dto
         [Required(ErrorMessage = "Favor inserir Data de Publicação.")]
         public DateTime? DataPublicacao { get; set; }
         public AutorDto Autor { get; set; }
+        public String Caminho { get; set; }
     }
 }

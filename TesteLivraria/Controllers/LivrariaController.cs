@@ -101,12 +101,13 @@ namespace TesteLivraria.Controllers
                 return View("Livro", livroAutor);
 
             }
+            livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
             if (livroAutor.Livro.Id == 0)
             {
                 if (livroAutor.Livro.Cadastrar() > 0)
                 {
 
-                    return RedirectToAction("LivrosConsulta", "Livraria");
+                    return RedirectToAction("LivrosConsultaApi", "Livraria");
                 }
             }
             else
@@ -114,7 +115,7 @@ namespace TesteLivraria.Controllers
                 if (livroAutor.Livro.Atualizar() > 0)
                 {
 
-                    return RedirectToAction("LivrosConsulta", "Livraria");
+                    return RedirectToAction("LivrosConsultaApi", "Livraria");
                 }
             }
 

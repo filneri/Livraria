@@ -11,16 +11,33 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script type="text/javascript" src="/Scripts/jquery-1.8.3.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/Scripts/jquery.maskedinput.min.js"></script>
 
-    <script>
-        $(document).ready(
-            function () {
-                $(".data").inputmask({ "mask": "99/99/9999" });
-            }
-        );
-    </script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnAutor").click(function () {
+            var autor = {nome: document.getElementById("nomeAutor").value};
+            $.ajax({
+                url: "/api/Autor",
+                data: JSON.stringify(autor),
+                contentType: "application/json",
+                method: "POST",
+                success: function () {
+                    bootbox.alert("Autor cadastrado com Sucesso!", function () {
+                        location.reload();
+                    });
+                }
+            });
+        });
+
+
+        $(".data").inputmask({ "mask": "99/99/9999" });
+
+    });
+</script>
+
+
+
 }
 
 
@@ -28,46 +45,73 @@
 <h3>@ViewBag.acao</h3>
 
 
-@using (Html.BeginForm("Save", "Livraria"))
+@using (Html.BeginForm("Save", "Livraria", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
-    <div class="form-group-sm">
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.ISBN)
-            @Html.TextBoxFor(l => l.Livro.ISBN, new { @class = "form-control", @maxlength = 13 })
-            @Html.ValidationMessageFor(l => l.Livro.ISBN)
-        </div>
+<div class="form-group-sm">
+    <div class="form-group">
+        @Html.LabelFor(l => l.Livro.ISBN, new { @class = "control-label col-md-2" })
+        @Html.TextBoxFor(l => l.Livro.ISBN, new { @class = "form-control", @maxlength = 13 })
+        @Html.ValidationMessageFor(l => l.Livro.ISBN)
+    </div>
 
 
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.Nome)
-            @Html.TextBoxFor(l => l.Livro.Nome, new { @class = "form-control" })
-            @Html.ValidationMessageFor(l => l.Livro.Nome)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.Preco)
-            @Html.TextBoxFor(l => l.Livro.Preco, new { @class = "form-control" })
-            @Html.ValidationMessageFor(l => l.Livro.Preco)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.DataPublicacao)
-            @Html.TextBoxFor(l => l.Livro.DataPublicacao, new { @class = "form-control data" })
-            @Html.ValidationMessageFor(l => l.Livro.DataPublicacao)
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.Autor)
-            @Html.DropDownListFor(l => l.Livro.Autor.Id, new SelectList(Model.Autores, "Id", "Nome"), "Selecione o Autor", new { @class = "form-control" })
-            @Html.ValidationMessageFor(l => l.Livro.Autor.Id)
-        </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.Livro.Nome, new { @class = "control-label col-md-2" })
+        @Html.TextBoxFor(l => l.Livro.Nome, new { @class = "form-control" })
+        @Html.ValidationMessageFor(l => l.Livro.Nome)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.Livro.Preco, new { @class = "control-label col-md-2" })
+        @Html.TextBoxFor(l => l.Livro.Preco, new { @class = "form-control" })
+        @Html.ValidationMessageFor(l => l.Livro.Preco)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.Livro.DataPublicacao, new { @class = "control-label col-md-2" })
+        @Html.TextBoxFor(l => l.Livro.DataPublicacao, new { @class = "form-control data" })
+        @Html.ValidationMessageFor(l => l.Livro.DataPublicacao)
     </div>
 
     <div class="form-group">
-        <button type="submit" class="btn btn-default">Salvar</button>
+        @Html.LabelFor(l => l.Livro.Capa, new { @class = "custom-file-label col-md-2" })
+        @Html.TextBoxFor(l => l.Livro.Capa, new { type = "file" , @class = "form-control" })
+        @Html.ValidationMessageFor(l => l.Livro.Capa)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.Livro.Autor, new { @class = "control-label col-md-2" })
+        @Html.DropDownListFor(l => l.Livro.Autor.Id, new SelectList(Model.Autores, "Id", "Nome"), "Selecione o Autor", new { @class = "form-control col-md-2" })
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#autorModal">+</button>
+        @Html.ValidationMessageFor(l => l.Livro.Autor.Id)
+    </div>
+</div>
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-group-sm btn-primary">Salvar</button>
     </div>
     @Html.AntiForgeryToken()
-
     @Html.HiddenFor(l => l.Livro.Id)
 
 
+    <div id="autorModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastro de autor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label class="control-label col-md-2"> Autor</label>
+                    <input id="nomeAutor" type="text" class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button id="btnAutor" type="button" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }

@@ -35,5 +35,28 @@ namespace TesteLivraria.Models
             }
         }
 
+        public int Atualizar()
+        {
+            return new AutorDB(this).Atualizar();
+        }
+
+        public int Cadastrar()
+        {
+            AutorDB autordb = new AutorDB();
+            if (autordb.BuscarPorNome(this.Nome).Id != 0)
+                return 1001;
+            else
+            {
+                autordb.Autor = this;
+                return autordb.Cadastrar();
+            }
+
+        }
+
+        public int Excluir()
+        {
+            return new AutorDB(this).Excluir();
+        }
+
     }
 }

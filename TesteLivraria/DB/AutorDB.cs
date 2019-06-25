@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,6 +12,16 @@ namespace TesteLivraria.DB
     {
         public Autor Autor { get; set; }
 
+        public AutorDB(Autor autor)
+        {
+            Autor = autor;
+        }
+
+
+        public AutorDB()
+        {
+
+        }
 
         public List<Autor> Listar()
         {
@@ -60,6 +71,31 @@ namespace TesteLivraria.DB
             }
 
             return this.Autor;
+        }
+
+        public int Cadastrar()
+        {
+            String sql = "Insert into Autor(Nome) Values(?0)";
+            ArrayList parametros = new ArrayList();
+            parametros.Add(this.Autor.Nome);
+            return ExecutarComParametros(sql, parametros);
+
+        }
+
+        internal int Atualizar()
+        {
+            String sql = "update Autor set Nome=?0 where idAutor=?1";
+            ArrayList parametros = new ArrayList();
+            parametros.Add(this.Autor.Nome);
+            parametros.Add(this.Autor.Id);
+            return ExecutarComParametros(sql, parametros);
+
+        }
+
+        public int Excluir()
+        {
+            String sql = "delete from Autor where idautor = " + this.Autor.Id;
+            return Executar(sql);
         }
 
     }

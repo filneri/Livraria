@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Linq;
+using System.IO;
 using System.Web;
 using TesteLivraria.DB;
+using TesteLivraria.Util.Validators;
 
 namespace TesteLivraria.Models
 {
@@ -26,7 +25,12 @@ namespace TesteLivraria.Models
         [Required(ErrorMessage = "Favor inserir Data de Publicação.")]
         [Display(Name = "Data de Publicação")]
         public DateTime? DataPublicacao { get; set; }
+        [Required(ErrorMessage = "Favor selecionar autor.")]
         public Autor Autor { get; set; }
+        [Required(ErrorMessage = "Favor selecionar arquivo.")]
+        [AllowExtensions(Extensions = "png,jpg", ErrorMessage = "Favior selecionar imagem. arquivos permitidos png | .jpg")]
+        public HttpPostedFileBase Capa { get; set; }
+        public String Caminho { get; set; }
 
 
         public int Cadastrar()
@@ -35,7 +39,29 @@ namespace TesteLivraria.Models
             if (livrodb.BuscarPorISBN(this.ISBN).Id != 0)
                 return 1001;
             else
-                return new LivroDB(this).Cadastrar();
+            {
+                if (new LivroDB(this).Cadastrar() > 0)
+                {
+                    try
+                    {
+                        if (Capa.ContentLength > 0)
+                        {
+                            var caminho = Path.Combine(this.Caminho, ISBN +"."+ Capa.ContentType.Replace("image/",""));
+
+                            Capa.SaveAs(caminho);
+
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        return 1002;
+                    }
+
+                    return 1;
+                }
+                else
+                    return 1003;
+            }
 
         }
 
