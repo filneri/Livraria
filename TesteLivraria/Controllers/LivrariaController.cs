@@ -101,17 +101,24 @@ namespace TesteLivraria.Controllers
                 return View("Livro", livroAutor);
 
             }
-            livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
+
             if (livroAutor.Livro.Id == 0)
             {
                 if (livroAutor.Livro.Cadastrar() > 0)
                 {
-
+                    livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
                     return RedirectToAction("LivrosConsultaApi", "Livraria");
                 }
             }
             else
             {
+                try { 
+                    if (livroAutor.Livro.Capa.ContentLength > 0)
+                    livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
+                 }catch(Exception e)
+                {
+
+                }
                 if (livroAutor.Livro.Atualizar() > 0)
                 {
 

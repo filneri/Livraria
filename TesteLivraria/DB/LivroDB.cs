@@ -40,7 +40,7 @@ namespace TesteLivraria.DB
         {
             this.Livro = new Livro();
             this.Livro.Autor = new Autor();
-            string sql = "select l.idlivro,l.isbn,l.nome as livro,l.preco,l.datapublicacao,l.idautor,a.nome as autor from livro l inner join autor a on l.idautor = a.idautor where ISBN ='" + ISBN+"'";
+            string sql = "select l.idlivro,l.isbn,l.nome as livro,l.preco,l.datapublicacao,l.idautor,a.nome as autor,l.imagem from livro l inner join autor a on l.idautor = a.idautor where ISBN ='" + ISBN+"'";
             DataSet dados = LeitorDeDados(sql);
             foreach (DataRow row in dados.Tables[0].Rows)
             {
@@ -53,6 +53,7 @@ namespace TesteLivraria.DB
                 this.Livro.DataPublicacao = Convert.ToDateTime(row["DataPublicacao"].ToString());
                 this.Livro.Autor.Id = Convert.ToInt32(row["idAutor"].ToString());
                 this.Livro.Autor.Nome = row["autor"].ToString();
+                this.Livro.Caminho = row["imagem"].ToString();
             }
 
             return this.Livro;
@@ -60,13 +61,14 @@ namespace TesteLivraria.DB
 
         internal int Atualizar()
         {
-            String sql = "update Livro set ISBN=?0,Nome=?1,Preco=?2,DataPublicacao=?3,idautor=?4 where idLivro=?5";
+            String sql = "update Livro set ISBN=?0,Nome=?1,Preco=?2,DataPublicacao=?3,idautor=?4,imagem=?5 where idLivro=?6";
             ArrayList parametros = new ArrayList();
             parametros.Add(this.Livro.ISBN);
             parametros.Add(this.Livro.Nome);
             parametros.Add(this.Livro.Preco);
             parametros.Add(this.Livro.DataPublicacao);
             parametros.Add(this.Livro.Autor.Id);
+            parametros.Add(this.Livro.ISBN + "." + this.Livro.Capa.ContentType.Replace("image/", ""));
             parametros.Add(this.Livro.Id);
             return ExecutarComParametros(sql, parametros);
 
@@ -76,7 +78,7 @@ namespace TesteLivraria.DB
         {
             this.Livro = new Livro();
             this.Livro.Autor = new Autor();
-            string sql = "select l.idlivro,l.isbn,l.nome as livro,l.preco,l.datapublicacao,l.idautor,a.nome as autor from livro l inner join autor a on l.idautor = a.idautor where idlivro ='" + id + "'";
+            string sql = "select l.idlivro,l.isbn,l.nome as livro,l.preco,l.datapublicacao,l.idautor,a.nome as autor,l.imagem from livro l inner join autor a on l.idautor = a.idautor where idlivro ='" + id + "'";
             DataSet dados = LeitorDeDados(sql);
             foreach (DataRow row in dados.Tables[0].Rows)
             {
@@ -89,6 +91,7 @@ namespace TesteLivraria.DB
                 this.Livro.DataPublicacao = Convert.ToDateTime(row["DataPublicacao"].ToString());
                 this.Livro.Autor.Id = Convert.ToInt32(row["idAutor"].ToString());
                 this.Livro.Autor.Nome = row["autor"].ToString();
+                this.Livro.Caminho = row["imagem"].ToString();
             }
 
             return this.Livro;

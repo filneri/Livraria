@@ -23,11 +23,58 @@ textarea {
     max-width: 280px;
 }
 
-.field-validation-error{
+.field-validation-error {
     color: red;
 }
 
-.input-validation-error{
+.input-validation-error {
     border: 2px solid #ff0000;
 }
 
+th.dt-center, td.dt-center {
+    text-align: center;
+}
+
+.zoom {
+    overflow: hidden;
+}
+
+    .zoom img {
+        visibility: collapse;
+
+    }
+
+    .zoom:hover img {
+        visibility: visible;
+
+    }
+
+
+td.details-control {
+    background: url("/img/details_open.png") no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+    background: url("/img/details_close.png") no-repeat center center;
+}
+
+.body-content {
+    width:95%;
+}
+
+.inputDatatable {
+    width: 100%;
+    box-sizing: border-box;
+    border: solid thin;
+    font-size: smaller;
+}
+
+table.dataTable tbody td {
+    word-break: break-word;
+    vertical-align: top;
+}
+
+valor{
+    width:30px;
+}

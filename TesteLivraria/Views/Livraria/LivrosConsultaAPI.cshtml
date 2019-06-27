@@ -11,106 +11,193 @@
 </style>
 
 @section scripts{
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(document).ready(function () { 
+        $(document).ready(function () {
 
-        $("#tblLivros").DataTable({
-            ajax: {
-                url: "/api/Livro",
-                dataSrc: ""
-            },
-            columns: [
-                {
-                    data: "isbn"
-                },
-                {
-                    data: "nome"
-                },
-                {
-                    data: "dataPublicacao"
-                },
-                {
-                    data: "preco"
-                },
-                {
-                    data: "autor.nome"
-                },
-                {
-                    data: "caminho",
-                      render: function (data, type, livro) {
-                          return '<img class="rounded img-thumbnail" src="/Uploads/' + data + '"/>';
-                    }
-                },
-                {
-                    data: "id",
-                    render: function (data, type, livro) {
-                        return "<a href='/Livraria/LivrosAtualizacao/" + livro.id + "'  class='btn btn-warning'> Editar </a>" +
-                            " <button data-livro-id=' " + data + " ' class='btn btn-danger js-excluir'>Excluir</button>";
-                    }
-                }
-            ],
-            "oLanguage": {
-                "sEmptyTable": "Nenhum livro cadastrado.",
-                "sInfo": "de _START_ até _END_ de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sInfoThousands": ".",
-                "sLengthMenu": "_MENU_ resultados por página",
-                "sLoadingRecords": "Carregando...",
-                "sProcessing": "Processando...",
-                "sZeroRecords": "Nenhum livro encontrado",
-                "sSearch": "Pesquisar",
-                "oPaginate": {
-                    "sNext": ">",
-                    "sPrevious": "<",
-                    "sFirst": "|<",
-                    "sLast": ">|"
-                },
-                "oAria": {
-                    "sSortAscending": ": Ordenar colunas de forma ascendente",
-                    "sSortDescending": ": Ordenar colunas de forma descendente"
-                }
+            function format(d) {
+                // `d` is the original data object for the row
+                return '<table table-striped cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                    '<tr>' +
+                    '<td>ISBN: </td>' +
+                    '<td>' + " " + d.isbn +  '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Autor: </td>' +
+                    '<td>' + " " + d.autor.nome + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Capa: </td>' +
+                    '<td><img class="rounded img-thumbnail" width="500" heitght="500" src="/Uploads/' + d.caminho + '"/></td>' +
+                    '</tr>' +
+                    '</table>';
             }
-        });
-        $("#tblLivros").on("click",".js-excluir",function () {
-            var button = $(this);
-            bootbox.confirm("Deseja excluir este livro ?", function (result) {
-                if (result) {
-                    $.ajax({
-                        url: "/api/Livro/" + button.attr("data-livro-id"),
-                        method: "DELETE",
-                        success: function () {
-                            DataTable.row(button.parents("tr")).remove().draw();
+
+            // Setup - add a text input to each footer cell
+            $('#tblLivros tfoot th').each(function () {
+                var title = $(this).text();
+                if (title != "")
+                $(this).html('<input type="text" class="inputDatatable" placeholder="" />');
+            });
+
+            var table = $("#tblLivros").DataTable({
+                "searching": true,
+                'autoWidth': false,
+                
+                ajax: {
+                    url: "/api/Livro",
+                    dataSrc: ""
+                },
+                "columnDefs": [
+                    { "className": "dt-center", "targets": "_all" },
+                    { "className": "compact", "targets": "_all" }
+                ],
+
+                columns: [
+                    {
+                        className: 'details-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: ''
+                    },
+                    {
+                        data: "isbn"
+                    },
+                    {
+                        data: "nome"
+                    },
+                    {
+                        data: "dataPublicacao",
+                        render: function (data, type, livro) {
+                            if (type === "sort" || type === "type") {
+                                return data;
+                            }
+                            return moment(data).format("DD/MM/YYYY");
                         }
-                        
-                    });
+                    },
+                    {
+                        data: "preco"
+                    },
+                    {
+                        data: "autor.nome"
+                    },
+                    {
+                        orderable: false,
+                        data: "id",
+                        "orderable": false,
+                        render: function (data, type, livro) {
+                            return "<a href='/Livraria/LivrosAtualizacao/" + livro.id + "'  class='btn btn-sm btn-warning disabled'><img  alt='Editar' src='/img/editar.png'></a>" +
+                                " <button data-livro-id=' " + data + " ' class='btn btn-danger disabled btn-sm js-excluir' data-toggle='modal' data-target='#deleteModal'><img  alt='Excluir' src='/img/excluir.png'></button>";
+                        }
+                    }
+                ],
+                "oLanguage": {
+                    "sEmptyTable": "Nenhum livro cadastrado.",
+                    "sInfo": "de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum livro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": ">",
+                        "sPrevious": "<",
+                        "sFirst": "|<",
+                        "sLast": ">|"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
                 }
             });
+
+            $('#tblLivros tfoot tr').appendTo('#tblLivros thead');
+
+
+       
+
+               // Apply the search
+                table.columns().every(function () {
+                    var that = this;
+
+                    $('input', this.footer()).on('keyup change', function () {
+                        if (that.search() !== this.value) {
+                            that
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                });
+
+            $('#tblLivros tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+
+            $("#tblLivros").on("click", ".js-excluir", function () {
+                var button = $(this);
+                bootbox.confirm("Deseja excluir este livro ?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Livro/" + button.attr("data-livro-id"),
+                            method: "DELETE",
+                            success: function () {
+                                DataTable.row(button.parents("tr")).remove().draw();
+                            }
+
+                        });
+                    }
+                });
+            });
         });
-    });
-</script>
+    </script>
 }
 
 <h2>Listagem de livros</h2>
 <br />
-@Html.ActionLink("Cadastro", "LivrosCadastro", null, new { @class = "btn btn-default" })
+@Html.ActionLink("Cadastro", "LivrosCadastro", null, new { @class = "btn btn-primary" })
 <br />
 <br />
-<table id="tblLivros" class="table table-bordered table-hover">
+<table id="tblLivros" class="table table-striped" style="width:100%">
     <thead>
         <tr style="text-align: center">
+            <th width="5%"></th>
+            <th width="15%">ISBN</th>
+            <th width="32%">Nome</th>
+            <th width="10%">Data de Publicação</th>
+            <th width="8%">Preço</th>
+            <th width="15%">Autor</th>
+            <th width="15%"></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th></th>
             <th>ISBN</th>
             <th>Nome</th>
             <th>Data de Publicação</th>
             <th>Preço</th>
             <th>Autor</th>
-            <th>Capa</th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
+    </tfoot>
+    <tbody></tbody>
 
-    </tbody>
 </table>
+

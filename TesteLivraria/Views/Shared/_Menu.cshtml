@@ -1,17 +1,18 @@
 ﻿<nav class="navbar navbar-inverse navbar-fixed-top">
-    <a class="navbar-brand" rel="home" href="#" title="Buy Sell Rent Everyting">
-        <img style="max-width:100px; margin-top: -7px; height: 40px"
-             src="~/img/bcc.PNG">
-    </a>
+
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#links-menu" style="background-color: white;">
-                <i class="material-icons">menu</i>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
+            @Html.ActionLink("BCC Livraria", "Index", "Livraria", new { @class = "navbar-brand" })
         </div>
-        <nav id="navbarColor03" class="collapse navbar-collapse">
+        <nav id="menu" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-left">
-                <li>@Html.ActionLink("Livros", "LivrosConsultaApi", "Livraria")</li>
+                <li>@Html.ActionLink("Livros", "LivrosConsultaAPI", "Livraria")</li>
                 <li><a href="#">Contato</a></li>
             </ul>
         </nav>

@@ -13,9 +13,14 @@ namespace TesteLivraria
                         "~/Scripts/bootbox.js",
                         "~/Scripts/datatables/jquery.datatables.js",
                         "~/Scripts/datatables/datatables.bootstrap.js",
+                        "~/Scripts/datatables/buttons.bootstrap.js",
+                        "~/Scripts/datatables/dataTables.buttons.js",
                         // "~/Scripts/typeahead.bundle.js",
                         // "~/Scripts/toastr.js",
+                        "~/Scripts/moment.js",
                         "~/Scripts/methods_pt.js"));
+
+
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"
@@ -30,7 +35,7 @@ namespace TesteLivraria
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(                      
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-yeti.css",
                       "~/Content/DataTables/css/datatables.bootstrap.css",
                       "~/Content/site.css"));
 

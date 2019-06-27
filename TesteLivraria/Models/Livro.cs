@@ -10,6 +10,9 @@ namespace TesteLivraria.Models
 {
     public class Livro
     {
+        private static int erroAoCriarArquivo = 1002;
+        private static int modificacaoNaoRealizadaNaBase = 1003;
+        private static int sucesso = 1001;
        
         public Int32 Id { get; set; }
         [Required(ErrorMessage = "Favor inserir ISBN.")]
@@ -27,8 +30,7 @@ namespace TesteLivraria.Models
         public DateTime? DataPublicacao { get; set; }
         [Required(ErrorMessage = "Favor selecionar autor.")]
         public Autor Autor { get; set; }
-        [Required(ErrorMessage = "Favor selecionar arquivo.")]
-        [AllowExtensions(Extensions = "png,jpg", ErrorMessage = "Favior selecionar imagem. arquivos permitidos png | .jpg")]
+        [AllowExtensions(Extensions = "PNG,png,jpg", ErrorMessage = "Favior selecionar imagem. arquivos permitidos png | .jpg")]
         public HttpPostedFileBase Capa { get; set; }
         public String Caminho { get; set; }
 
@@ -47,20 +49,20 @@ namespace TesteLivraria.Models
                         if (Capa.ContentLength > 0)
                         {
                             var caminho = Path.Combine(this.Caminho, ISBN +"."+ Capa.ContentType.Replace("image/",""));
-
+                            
                             Capa.SaveAs(caminho);
 
                         }
                     }
                     catch (Exception e)
                     {
-                        return 1002;
+                        return erroAoCriarArquivo;
                     }
 
-                    return 1;
+                    return sucesso;
                 }
                 else
-                    return 1003;
+                    return modificacaoNaoRealizadaNaBase;
             }
 
         }
@@ -75,7 +77,8 @@ namespace TesteLivraria.Models
             switch (comando)
             {
                 case ("Id"):
-                    return new LivroDB().BuscarPorId(this.Id);
+                    Livro livro = new LivroDB().BuscarPorId(this.Id);
+                    return livro;
                 case "ISBN":
                     return new LivroDB().BuscarPorISBN(this.ISBN);
                 default:
@@ -87,7 +90,25 @@ namespace TesteLivraria.Models
 
         public int Atualizar()
         {
-                return new LivroDB(this).Atualizar();
+         
+            if (new LivroDB(this).Atualizar() > 0)
+                {
+                    try
+                    {
+                        if (!Caminho.Contains(ISBN))
+                        {
+                        Capa.SaveAs(Path.Combine(this.Caminho, ISBN + "." + Capa.ContentType.Replace("image/", "")));
+
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        return erroAoCriarArquivo;
+                    }
+
+                    return sucesso;
+            }
+            return modificacaoNaoRealizadaNaBase;
         }
 
         public int Excluir()

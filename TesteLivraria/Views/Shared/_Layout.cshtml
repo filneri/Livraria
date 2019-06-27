@@ -10,7 +10,10 @@
     @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
-
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/inputmask")
+    @Html.Partial("_Menu")
+    @RenderSection("scripts", required: false)
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -18,10 +21,6 @@
             <p>&copy; @DateTime.Now.Year - Livraria xD</p>
         </footer>
     </div>
-        @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/inputmask")
-    @Html.Partial("_Banner")
-    @Html.Partial("_Menu")
-    @RenderSection("scripts", required: false)
+
 </body>
 </html>
