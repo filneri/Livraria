@@ -15,8 +15,9 @@
 
         $(document).ready(function () {
 
+            //sub tabela
             function format(d) {
-                return '<table table-striped cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                return '<table class="table table-striped" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                     '<tr>' +
                     '<td>ISBN: </td>' +
                     '<td>' + " " + d.isbn +  '</td>' +
@@ -32,12 +33,14 @@
                     '</table>';
             }
 
+            //input de pesquisas
             $('#tblLivros tfoot th').each(function () {
                 var title = $(this).text();
                 if (title != "")
                 $(this).html('<input type="text" class="inputDatatable" placeholder="" />');
             });
 
+            //inicia datatable
             var table = $("#tblLivros").DataTable({
                 'autoWidth': false,
                 
@@ -115,20 +118,21 @@
 
             $('#tblLivros tfoot tr').appendTo('#tblLivros thead');
 
+            
+            //modifica local dos inputs de pesquisas
+            table.columns().every(function () {
+                var that = this;
 
-
-                table.columns().every(function () {
-                    var that = this;
-
-                    $('input', this.footer()).on('keyup change', function () {
-                        if (that.search() !== this.value) {
-                            that
-                                .search(this.value)
-                                .draw();
-                        }
-                    });
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
                 });
+            });
 
+            //metodo para mostrar/ocultar subtabela
             $('#tblLivros tbody').on('click', 'td.details-control', function () {
                 var tr = $(this).closest('tr');
                 var row = table.row(tr);
@@ -143,6 +147,7 @@
                 }
             });
 
+            //exclusão de livro
             $("#tblLivros").on("click", ".js-excluir", function () {
                 var button = $(this);
                 bootbox.confirm("Deseja excluir este livro ?", function (result) {
@@ -165,6 +170,7 @@
 <h3>Livros</h3>
 <br />
 @Html.ActionLink("Cadastro", "LivrosCadastro", null, new { @class = "btn btn-primary" })
+
 <br />
 <br />
 <table id="tblLivros" class="table table-striped" style="width:100%">

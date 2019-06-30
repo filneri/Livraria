@@ -13,13 +13,6 @@ namespace TesteLivraria.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -92,33 +85,50 @@ namespace TesteLivraria.Controllers
                 return View("Livro", livroAutor);
 
             }
-
-            if (livroAutor.Livro.Id == 0)
+            int execucao;
+            if (livroAutor.Livro.Id == 0)//verifica se é cadasrto ou update
             {
                 livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
-                if (livroAutor.Livro.Cadastrar() > 0)
-                {
-                    return RedirectToAction("LivrosConsultaApi", "Livraria");
-                }
+                execucao = livroAutor.Livro.Cadastrar();
             }
             else
             {
-                try { 
+                try
+                {
                     if (livroAutor.Livro.Capa.ContentLength > 0)
-                    livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
-                 }catch(Exception e)
+                        livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
+                }
+                catch (Exception e)
                 {
 
                 }
-                if (livroAutor.Livro.Atualizar() > 0)
-                {
-
-                    return RedirectToAction("LivrosConsultaApi", "Livraria");
-                }
+                execucao = livroAutor.Livro.Atualizar();
             }
-
-            return HttpNotFound();
-
+                
+            
+                if (execucao == 1004)
+                {
+                    livroAutor.Autores = new Autor().Listar();
+                    ViewBag.errormsg = "ISBN já cadastrado!";
+                    return View("Livro", livroAutor);
+                }
+                if(execucao == 1001)
+                {
+                ModelState.Clear();
+                livroAutor.Livro = new Livro();
+                    livroAutor.Autores =new Autor().Listar();
+                ViewBag.resultado = "Livro atualizado com sucesso!";
+        
+                    return View("Livro", livroAutor);
+                }
+                else
+                {
+                    livroAutor.Autores = new Autor().Listar();
+                    ViewBag.errormsg = "Erro ao cadastrar!";
+                    return View("Livro", livroAutor);
+                }
+         
+            
         }
     }
 }

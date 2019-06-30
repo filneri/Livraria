@@ -32,6 +32,9 @@ namespace TesteLivraria.DAO
             parametros.Add(this.Livro.Preco);
             parametros.Add(this.Livro.DataPublicacao);
             parametros.Add(this.Livro.Autor.Id);
+            if(this.Livro.Capa == null)
+                parametros.Add("");
+            else
             parametros.Add(this.Livro.ISBN + "." + this.Livro.Capa.ContentType.Replace("image/", ""));
             return ExecutarComParametros(sql, parametros);
 

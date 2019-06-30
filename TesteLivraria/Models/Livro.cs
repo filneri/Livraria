@@ -11,9 +11,10 @@ namespace TesteLivraria.Models
     public class Livro
     {
         #region constantes
-        private static int erroAoCriarArquivo = 1002;
-        private static int modificacaoNaoRealizadaNaBase = 1003;
-        private static int sucesso = 1001;
+        private static readonly int erroAoCriarArquivo = 1002;
+        private static readonly int modificacaoNaoRealizadaNaBase = 1003;
+        private static readonly int sucesso = 1001;
+        private static readonly int livroJaCadastrado = 1004;
         #endregion        
         #region atributos
         public Int32 Id { get; set; }
@@ -41,7 +42,7 @@ namespace TesteLivraria.Models
         {
             LivroDB livrodb = new LivroDB();
             if (livrodb.BuscarPorISBN(this.ISBN).Id != 0)
-                return 1001;
+                return livroJaCadastrado;
             else
             {
                 if (new LivroDB(this).Cadastrar() > 0)
@@ -92,7 +93,12 @@ namespace TesteLivraria.Models
 
         public int Atualizar()
         {
-         
+            LivroDB livroDB = new LivroDB();
+            Livro  livro = livroDB.BuscarPorISBN(this.ISBN);
+            if (livro.Id !=0 && livro.Id != this.Id)
+                return livroJaCadastrado;
+            else
+
             if (new LivroDB(this).Atualizar() > 0)
                 {
                     try

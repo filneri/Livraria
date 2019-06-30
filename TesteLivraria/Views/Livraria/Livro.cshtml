@@ -11,7 +11,6 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -54,9 +53,12 @@
                 });
             });
             //fim cadastro de autor
+            $("#btnAutorModal").click(function () {
+                document.getElementById("nomeAutor").value = "";
+            });
 
             //mascaras de campos
-            $(".data").inputmask({ "mask": "99/99/9999" });
+            $(".data").inputmask({ "mask": '99/99/9999' });
             $(".valor").inputmask('decimal', {
                 'alias': 'numeric',
                 'groupSeparator': '.',
@@ -71,16 +73,7 @@
             //fim mascaras de campo
 
 
-            $("#btnSubmit").click(function (e) {
-                e.preventDefault();
-
-                if ($("#formSubmit").valid()) {
-                    bootbox.alert("Livro atualizado com Sucesso!", function () {
-                        $("#formSubmit").submit();
-                    });
-                }
-             
-            });
+    
         });
     </script>
 
@@ -128,7 +121,7 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(l => l.Livro.DataPublicacao, new { @class = "control-label col-lg-2" })
-                @Html.TextBoxFor(l => l.Livro.DataPublicacao, new { @id = "txtDataPublicacao", @class = "form-control col-lg-10 data  input-sm" })
+                @Html.TextBoxFor(l => l.Livro.DataPublicacao, new { @id = "txtDataPublicacao", @class = "form-control col-lg-10 data input-sm" ,@readonly= "readonly"})
                 @Html.ValidationMessageFor(l => l.Livro.DataPublicacao)
             </div>
 
@@ -154,7 +147,11 @@
                     <button id="btnSubmit" type="submit" class="btn btn-group-sm btn-primary">
                         Salvar
                     </button>
-                    <button type="button" class="btn btn-secundary" data-toggle="modal" data-target="#autorModal">Novo Autor</button>
+                    <a href='/Livraria/LivrosConsultaAPI/' class='btn btn-secundary'>Cancelar</a>
+                    <button id="btnAutorModal" type="button" class="btn btn-default" data-toggle="modal" data-target="#autorModal">Novo Autor</button>
+                    <br />
+                    <label class="field-validation-error">@ViewBag.errormsg</label>
+                    <label class="alert-success">@ViewBag.resultado</label>
                 </div>
             </div>
         </div>
