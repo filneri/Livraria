@@ -9,7 +9,7 @@ namespace TesteLivraria.Dto
 {
     public class LivroDto
     {
-
+        #region atributos
         public Int32 Id { get; set; }
         [Required(ErrorMessage = "Favor inserir ISBN.")]
         [StringLength(13)]
@@ -23,5 +23,6 @@ namespace TesteLivraria.Dto
         public DateTime? DataPublicacao { get; set; }
         public AutorDto Autor { get; set; }
         public String Caminho { get; set; }
+        #endregion
     }
 }

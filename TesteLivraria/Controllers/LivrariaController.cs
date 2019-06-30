@@ -1,10 +1,7 @@
 ﻿using TesteLivraria.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using TesteLivraria.ViewsModels;
+using TesteLivraria.Models.ViewsModels;
 
 namespace TesteLivraria.Controllers
 {
@@ -40,12 +37,6 @@ namespace TesteLivraria.Controllers
             return View("Livro", livroAutores);
         }
 
-
-
-        public ActionResult LivrosConsulta()
-        {
-           return View(new Livro().Listar());
-        }
 
         public ActionResult LivrosConsultaAPI()
         {
@@ -104,9 +95,9 @@ namespace TesteLivraria.Controllers
 
             if (livroAutor.Livro.Id == 0)
             {
+                livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
                 if (livroAutor.Livro.Cadastrar() > 0)
                 {
-                    livroAutor.Livro.Caminho = Server.MapPath("~/Uploads");
                     return RedirectToAction("LivrosConsultaApi", "Livraria");
                 }
             }

@@ -1,11 +1,9 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace TesteLivraria
 {
     public class BundleConfig
     {
-        // Para obter mais informações sobre o agrupamento, visite https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
@@ -13,10 +11,6 @@ namespace TesteLivraria
                         "~/Scripts/bootbox.js",
                         "~/Scripts/datatables/jquery.datatables.js",
                         "~/Scripts/datatables/datatables.bootstrap.js",
-                        "~/Scripts/datatables/buttons.bootstrap.js",
-                        "~/Scripts/datatables/dataTables.buttons.js",
-                        // "~/Scripts/typeahead.bundle.js",
-                        // "~/Scripts/toastr.js",
                         "~/Scripts/moment.js",
                         "~/Scripts/methods_pt.js"));
 
@@ -26,8 +20,6 @@ namespace TesteLivraria
                         "~/Scripts/jquery.validate*"
                         ,"~/Scripts/methods_pt.js"));
 
-            // Use a versão em desenvolvimento do Modernizr para desenvolver e aprender. Em seguida, quando estiver
-            // pronto para a produção, utilize a ferramenta de build em https://modernizr.com para escolher somente os testes que precisa.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
@@ -40,12 +32,10 @@ namespace TesteLivraria
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/inputmask").Include(
-                        //~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js",  //if not using jquery
                         "~/Scripts/inputmask/inputmask.js",
                         "~/Scripts/inputmask/jquery.inputmask.js",
                         "~/Scripts/inputmask/inputmask.extensions.js",
                         "~/Scripts/inputmask/inputmask.date.extensions.js",
-                        //and other extensions you want to include
                         "~/Scripts/inputmask/inputmask.numeric.extensions.js"
                         ));
 

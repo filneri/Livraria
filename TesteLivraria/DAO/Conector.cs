@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Web;
 using MySql.Data.MySqlClient;
 
-namespace TesteLivraria.DB
+namespace TesteLivraria.DAO
 {
     public class Conector
     {
+        #region atributos
         private String strConexao = ConfigurationManager.ConnectionStrings["Livraria"].ToString();
         public String MensagemDeErro { get; set; }
-
+        #endregion
+        #region metodos
         public Int32 Executar(String strSQL)
         {
             using (MySqlConnection conexao = new MySqlConnection(strConexao))
             {
                 conexao.Open(); //Abre conexao
                 MySqlCommand comando = new MySqlCommand(strSQL, conexao);
-                int rowsaffect = comando.ExecuteNonQuery();
+                int rowsaffect = comando.ExecuteNonQuery();//executa comando
                 conexao.Close(); //Fecha conexao
                 if (comando.LastInsertedId == 0)
                     return rowsaffect;
@@ -80,6 +79,6 @@ namespace TesteLivraria.DB
                 return ds;
             }
         }
-
+        #endregion
     }
 }

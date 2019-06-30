@@ -8,10 +8,11 @@ namespace TesteLivraria.Dto
 {
     public class AutorDto
     {
-
+        #region atributos
         [Required(ErrorMessage = "Favor selecionar Autor")]
         public Int32 Id { get; set; }
         public String Nome { get; set; }
+        #endregion
 
     }
 }

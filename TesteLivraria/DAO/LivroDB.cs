@@ -2,16 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
 using TesteLivraria.Models;
 
-namespace TesteLivraria.DB
+namespace TesteLivraria.DAO
 {
     public class LivroDB : Conector
     {
+        #region atributos
         public Livro Livro { get; set; }
-
+        #endregion
+        #region contrutores
         public LivroDB()
         {
        
@@ -21,7 +21,8 @@ namespace TesteLivraria.DB
         {
             Livro = livro;
         }
-
+        #endregion
+        #region consultas
         public int Cadastrar()
         {
             String sql = "Insert into Livro(ISBN,Nome,Preco,DataPublicacao,idautor,imagem) Values(?0,?1,?2,?3,?4,?5)";
@@ -68,7 +69,10 @@ namespace TesteLivraria.DB
             parametros.Add(this.Livro.Preco);
             parametros.Add(this.Livro.DataPublicacao);
             parametros.Add(this.Livro.Autor.Id);
-            parametros.Add(this.Livro.ISBN + "." + this.Livro.Capa.ContentType.Replace("image/", ""));
+            if(!this.Livro.Caminho.Contains(this.Livro.ISBN))
+                parametros.Add(this.Livro.ISBN + "." + this.Livro.Capa.ContentType.Replace("image/", ""));
+            else
+                parametros.Add(this.Livro.Caminho);
             parametros.Add(this.Livro.Id);
             return ExecutarComParametros(sql, parametros);
 
@@ -129,5 +133,6 @@ namespace TesteLivraria.DB
             String sql = "delete from Livro where idlivro = "+this.Livro.Id;
             return Executar(sql);
         }
+        #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿@model TesteLivraria.ViewsModels.LivroAutorViewModel
+﻿@model TesteLivraria.Models.ViewsModels.LivroAutorViewModel
 
 @{
     /**/
@@ -10,11 +10,35 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+            //date picker
+            $("#txtDataPublicacao").datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+                locale: 'pt-br',
+                showOn: "button",
+                buttonImage: "../img/calendar.gif",
+                buttonImageOnly: true,
+                buttonText: "Select date",
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                nextText: 'Próximo',
+                prevText: 'Anterior'
+            });
+
+            //cadastro de autor
             $("#btnAutor").click(function () {
                 var autor = { nome: document.getElementById("nomeAutor").value };
                 $.ajax({
@@ -29,8 +53,9 @@
                     }
                 });
             });
+            //fim cadastro de autor
 
-
+            //mascaras de campos
             $(".data").inputmask({ "mask": "99/99/9999" });
             $(".valor").inputmask('decimal', {
                 'alias': 'numeric',
@@ -38,12 +63,24 @@
                 'autoGroup': true,
                 'digits': 2,
                 'radixPoint': ",",
-                'align':"left",
+                'align': "left",
                 'digitsOptional': true,
                 'allowMinus': false,
                 'placeholder': ''
             });
+            //fim mascaras de campo
 
+
+            $("#btnSubmit").click(function (e) {
+                e.preventDefault();
+
+                if ($("#formSubmit").valid()) {
+                    bootbox.alert("Livro atualizado com Sucesso!", function () {
+                        $("#formSubmit").submit();
+                    });
+                }
+             
+            });
         });
     </script>
 
@@ -52,99 +89,103 @@
 }
 
 <br />
-@using (Html.BeginForm("Save", "Livraria", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Save", "Livraria", FormMethod.Post, new {@id="formSubmit", enctype = "multipart/form-data" }))
 {
 
-<div class="form-horizontal panel panel-info" style="width:50%">
+    <div class="form-horizontal panel panel-info" style="width:50%">
 
-    <div class="panel-heading">
-        <h3 class="panel-title">@ViewBag.acao</h3>
-    </div>
-    <div class="panel-body">
-
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.ISBN, new { @class = "control-label col-lg-2" })
-            @Html.TextBoxFor(l => l.Livro.ISBN, new { @class = "form-control col-lg-10  input-sm", @maxlength = 13 })
-            @Html.ValidationMessageFor(l => l.Livro.ISBN)
+        <div class="panel-heading">
+            <h3 class="panel-title">@ViewBag.acao</h3>
         </div>
-        
+        <div class="panel-body">
 
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.Nome, new { @class = "control-label col-lg-2" })
-            @Html.TextAreaFor(l => l.Livro.Nome, new { @class = "form-control col-lg-10 input-sm" })
-            @Html.ValidationMessageFor(l => l.Livro.Nome)
-        </div>
-        <div class="form-group">
+            <div class="form-group row">
+                <div class="col-xs-11">
+                    @Html.LabelFor(l => l.Livro.ISBN, new { @class = "control-label col-lg-2" })
+                    @Html.TextBoxFor(l => l.Livro.ISBN, new { @class = "form-control col-lg-10  input-sm", @maxlength = 13 })
+                    @Html.ValidationMessageFor(l => l.Livro.ISBN)
+                </div>
+            </div>
 
-            @Html.LabelFor(l => l.Livro.Preco, new { @class = "control-label col-lg-2" })
-            <div class="input-group">
 
-                <span class="input-group-addon">
-                    R$
-                </span>
-                @Html.TextBoxFor(l => l.Livro.Preco, new { @class = "valor form-control  input-sm" })
+            <div class="form-group">
+                @Html.LabelFor(l => l.Livro.Nome, new { @class = "control-label col-lg-2" })
+                @Html.TextAreaFor(l => l.Livro.Nome, new { @class = "form-control col-lg-10 input-sm" })
+                @Html.ValidationMessageFor(l => l.Livro.Nome)
+            </div>
+            <div class="form-group">
+
+                @Html.LabelFor(l => l.Livro.Preco, new { @class = "control-label col-lg-2" })
+                <div class="input-group" style="width:130px">
+
+                    <span class="input-group-addon">
+                        R$
+                    </span>
+                    @Html.TextBoxFor(l => l.Livro.Preco, new { @class = "valor form-control  input-sm" })
+
+                </div>
+                @Html.ValidationMessageFor(l => l.Livro.Preco)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(l => l.Livro.DataPublicacao, new { @class = "control-label col-lg-2" })
+                @Html.TextBoxFor(l => l.Livro.DataPublicacao, new { @id = "txtDataPublicacao", @class = "form-control col-lg-10 data  input-sm" })
+                @Html.ValidationMessageFor(l => l.Livro.DataPublicacao)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(l => l.Livro.Capa, new { @class = "control-label col-lg-2" })
+                @Html.TextBoxFor(l => l.Livro.Capa, new { type = "file", @class = "form-control col-lg-10  input-sm" })
+                @Html.ValidationMessageFor(l => l.Livro.Capa)
+            </div>
+
+
+            <div class="form-group ">
+                @Html.LabelFor(l => l.Livro.Autor, new { @class = "control-label col-lg-2" })
+
+
+                    @Html.DropDownListFor(l => l.Livro.Autor.Id, new SelectList(Model.Autores, "Id", "Nome"), "Selecione o Autor", new { @class = "form-control  input-sm" })
+                        
+
 
             </div>
-            @Html.ValidationMessageFor(l => l.Livro.Preco)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.DataPublicacao, new { @class = "control-label col-lg-2" })
-            @Html.TextBoxFor(l => l.Livro.DataPublicacao, new { @class = "form-control col-lg-10 data  input-sm" })
-            @Html.ValidationMessageFor(l => l.Livro.DataPublicacao)
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(l => l.Livro.Capa, new { @class = "control-label col-lg-2" })
-            @Html.TextBoxFor(l => l.Livro.Capa, new { type = "file", @class = "form-control col-lg-10  input-sm" })
-            @Html.ValidationMessageFor(l => l.Livro.Capa)
-        </div>
-
-
-        <div class="form-group ">
-            @Html.LabelFor(l => l.Livro.Autor, new { @class = "control-label col-lg-2" })
-            <div class="input-group">
-
-                @Html.DropDownListFor(l => l.Livro.Autor.Id, new SelectList(Model.Autores, "Id", "Nome"), "Selecione o Autor", new { @class = "form-control  input-sm" })
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#autorModal"><img alt="Novo autor" src="~/img/mais.png"></button>
-                </span>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button id="btnSubmit" type="submit" class="btn btn-group-sm btn-primary">
+                        Salvar
+                    </button>
+                    <button type="button" class="btn btn-secundary" data-toggle="modal" data-target="#autorModal">Novo Autor</button>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
-                <button type="submit" class="btn btn-group-sm btn-primary">Salvar</button>
-            </div>
-        </div>
-    </div>
     </div>
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(l => l.Livro.Id)
     @Html.HiddenFor(l => l.Livro.Caminho)
-    }
+}
 
 
 
 
 
-    <div id="autorModal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">Cadastro de autor</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label class="control-label col-lg-2"> Autor</label>
-                    <input id="nomeAutor" type="text" class="form-control" />
-                </div>
-                <div class="modal-footer">
-                    <button id="btnAutor" type="button" class="btn btn-primary">Salvar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                </div>
+<div id="autorModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Cadastro de autor</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label class="control-label col-lg-2"> Autor</label>
+                <input id="nomeAutor" type="text" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button id="btnAutor" type="button" class="btn btn-primary">Salvar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
+</div>

@@ -16,7 +16,6 @@
         $(document).ready(function () {
 
             function format(d) {
-                // `d` is the original data object for the row
                 return '<table table-striped cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                     '<tr>' +
                     '<td>ISBN: </td>' +
@@ -33,7 +32,6 @@
                     '</table>';
             }
 
-            // Setup - add a text input to each footer cell
             $('#tblLivros tfoot th').each(function () {
                 var title = $(this).text();
                 if (title != "")
@@ -41,7 +39,6 @@
             });
 
             var table = $("#tblLivros").DataTable({
-                "searching": true,
                 'autoWidth': false,
                 
                 ajax: {
@@ -49,8 +46,7 @@
                     dataSrc: ""
                 },
                 "columnDefs": [
-                    { "className": "dt-center", "targets": "_all" },
-                    { "className": "compact", "targets": "_all" }
+                    { "className": "dt-center", "targets": "_all" }
                 ],
 
                 columns: [
@@ -86,11 +82,12 @@
                         data: "id",
                         "orderable": false,
                         render: function (data, type, livro) {
-                            return "<a href='/Livraria/LivrosAtualizacao/" + livro.id + "'  class='btn btn-sm btn-warning disabled'><img  alt='Editar' src='/img/editar.png'></a>" +
-                                " <button data-livro-id=' " + data + " ' class='btn btn-danger disabled btn-sm js-excluir' data-toggle='modal' data-target='#deleteModal'><img  alt='Excluir' src='/img/excluir.png'></button>";
+                            return "<a href='/Livraria/LivrosAtualizacao/" + livro.id + "'  class='btn btn-sm btn-warning'><img  alt='Editar' src='/img/editar.png'></a>" +
+                                " <button data-livro-id=' " + data + " ' class='btn btn-danger btn-sm js-excluir' data-toggle='modal' data-target='#deleteModal'><img  alt='Excluir' src='/img/excluir.png'></button>";
                         }
                     }
                 ],
+                "order": [[1, "asc"]],
                 "oLanguage": {
                     "sEmptyTable": "Nenhum livro cadastrado.",
                     "sInfo": "de _START_ até _END_ de _TOTAL_ registros",
@@ -119,9 +116,7 @@
             $('#tblLivros tfoot tr').appendTo('#tblLivros thead');
 
 
-       
 
-               // Apply the search
                 table.columns().every(function () {
                     var that = this;
 
@@ -139,12 +134,10 @@
                 var row = table.row(tr);
 
                 if (row.child.isShown()) {
-                    // This row is already open - close it
                     row.child.hide();
                     tr.removeClass('shown');
                 }
                 else {
-                    // Open this row
                     row.child(format(row.data())).show();
                     tr.addClass('shown');
                 }

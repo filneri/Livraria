@@ -2,16 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
 using TesteLivraria.Models;
 
-namespace TesteLivraria.DB
+namespace TesteLivraria.DAO
 {
     public class AutorDB : Conector
     {
-        public Autor Autor { get; set; }
 
+        #region atributos
+        public Autor Autor { get; set; }
+        #endregion
+        #region construtores
         public AutorDB(Autor autor)
         {
             Autor = autor;
@@ -22,10 +23,11 @@ namespace TesteLivraria.DB
         {
 
         }
-
+        #endregion
+        #region consultas
         public List<Autor> Listar()
         {
-            String sql = "select * from autor";
+            String sql = "select a.idautor,a.nome as autor from autor a";
             List<Autor> autores = new List<Autor>();
             DataSet dados = LeitorDeDados(sql);
             Autor autor;
@@ -33,7 +35,7 @@ namespace TesteLivraria.DB
             {
                 autor = new Autor();
                 autor.Id = Convert.ToInt16(row["idAutor"].ToString());
-                autor.Nome = row["Nome"].ToString();
+                autor.Nome = row["autor"].ToString();
                 autores.Add(autor);
             }
 
@@ -97,6 +99,7 @@ namespace TesteLivraria.DB
             String sql = "delete from Autor where idautor = " + this.Autor.Id;
             return Executar(sql);
         }
+        #endregion
 
     }
 }

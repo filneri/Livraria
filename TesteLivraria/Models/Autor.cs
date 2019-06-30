@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Linq;
-using System.Web;
-using TesteLivraria.DB;
+using TesteLivraria.DAO;
 
 namespace TesteLivraria.Models
 {
     public class Autor : Conector
     {
+        #region atributos
         [Required(ErrorMessage = "Favor selecionar Autor")]
         public Int32 Id { get; set; }
         public String Nome { get; set; }
-
-
+        #endregion
+        #region construtores
         public List<Autor> Listar()
         {
             
 
             return new AutorDB().Listar();
         }
-
+        #endregion
+        #region metodos
         public Autor BuscarAutor(String comando)
         {
             switch (comando)
@@ -58,5 +57,6 @@ namespace TesteLivraria.Models
             return new AutorDB(this).Excluir();
         }
 
+        #endregion
     }
 }

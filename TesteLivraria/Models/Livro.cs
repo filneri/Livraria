@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Web;
-using TesteLivraria.DB;
+using TesteLivraria.DAO;
 using TesteLivraria.Util.Validators;
 
 namespace TesteLivraria.Models
 {
     public class Livro
     {
+        #region constantes
         private static int erroAoCriarArquivo = 1002;
         private static int modificacaoNaoRealizadaNaBase = 1003;
         private static int sucesso = 1001;
-       
+        #endregion        
+        #region atributos
         public Int32 Id { get; set; }
         [Required(ErrorMessage = "Favor inserir ISBN.")]
         [StringLength(13)]
@@ -33,8 +35,8 @@ namespace TesteLivraria.Models
         [AllowExtensions(Extensions = "PNG,png,jpg", ErrorMessage = "Favior selecionar imagem. arquivos permitidos png | .jpg")]
         public HttpPostedFileBase Capa { get; set; }
         public String Caminho { get; set; }
-
-
+        #endregion
+        #region metodos
         public int Cadastrar()
         {
             LivroDB livrodb = new LivroDB();
@@ -99,6 +101,7 @@ namespace TesteLivraria.Models
                         {
                         Capa.SaveAs(Path.Combine(this.Caminho, ISBN + "." + Capa.ContentType.Replace("image/", "")));
 
+
                         }
                     }
                     catch (Exception e)
@@ -115,5 +118,7 @@ namespace TesteLivraria.Models
         {
             return new LivroDB(this).Excluir();
         }
+
+        #endregion
     }
 }
