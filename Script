@@ -1,0 +1,18 @@
+CREATE DATABASE `livraria` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE TABLE `autor` (
+  `idAutor` int(11) NOT NULL AUTO_INCREMENT,
+  `Nome` varchar(150) NOT NULL,
+  PRIMARY KEY (`idAutor`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+CREATE TABLE `livro` (
+  `idLivro` int(11) NOT NULL AUTO_INCREMENT,
+  `idAutor` int(11) DEFAULT NULL,
+  `ISBN` varchar(13) DEFAULT NULL,
+  `Nome` varchar(150) DEFAULT NULL,
+  `Preco` double DEFAULT NULL,
+  `DataPublicacao` date DEFAULT NULL,
+  `Imagem` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`idLivro`),
+  KEY `idAutor1_idx` (`idAutor`),
+  CONSTRAINT `idAutor1` FOREIGN KEY (`idAutor`) REFERENCES `autor` (`idAutor`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
