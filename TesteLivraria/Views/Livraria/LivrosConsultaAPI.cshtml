@@ -82,8 +82,8 @@
                         data: "id",
                         "orderable": false,
                         render: function (data, type, livro) {
-                            return "<a href='/Livraria/LivrosAtualizacao/" + livro.id + "'  class='btn btn-sm btn-warning'><img  alt='Editar' src='/img/editar.png'></a>" +
-                                " <button data-livro-id=' " + data + " ' class='btn btn-danger btn-sm js-excluir' data-toggle='modal' data-target='#deleteModal'><img  alt='Excluir' src='/img/excluir.png'></button>";
+                            return "<a href='/Livraria/LivrosAtualizacao/" + livro.id + "'  class='btn btn-sm btn-default'><img  alt='Editar' src='/img/editar.png'></a>" +
+                                " <button data-livro-id=' " + data + " ' class='btn btn-default btn-sm js-excluir' data-toggle='modal' data-target='#deleteModal'><img  alt='Excluir' src='/img/excluir.png'></button>";
                         }
                     }
                 ],
@@ -162,7 +162,7 @@
     </script>
 }
 
-<h2>Listagem de livros</h2>
+<h3>Livros</h3>
 <br />
 @Html.ActionLink("Cadastro", "LivrosCadastro", null, new { @class = "btn btn-primary" })
 <br />
@@ -172,7 +172,7 @@
         <tr style="text-align: center">
             <th width="5%"></th>
             <th width="15%">ISBN</th>
-            <th width="32%">Nome</th>
+            <th width="32%">Título</th>
             <th width="10%">Data de Publicação</th>
             <th width="8%">Preço</th>
             <th width="15%">Autor</th>
