@@ -1,4 +1,5 @@
 CREATE DATABASE `livraria` /*!40100 DEFAULT CHARACTER SET utf8 */;
+Use livraria;
 CREATE TABLE `autor` (
   `idAutor` int(11) NOT NULL AUTO_INCREMENT,
   `Nome` varchar(150) NOT NULL,
